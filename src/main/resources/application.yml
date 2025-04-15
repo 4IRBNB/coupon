@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: lodge
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:h2:~/test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+  h2:
+    console:
+      enabled: true
+server:
+  port: 19099
+
+
+
+
+#  config:
+#    import: "configserver:http://localhost:18080"
+
+#server:
+#  port: 0
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:19090/eureka/
+#
+#message: "default message" # config server? ???? ?? ?
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: refresh
