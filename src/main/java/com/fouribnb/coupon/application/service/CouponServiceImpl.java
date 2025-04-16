@@ -3,8 +3,10 @@ package com.fouribnb.coupon.application.service;
 import com.fouribnb.coupon.domain.entity.Coupon;
 import com.fouribnb.coupon.domain.repository.CouponRepository;
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
+import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fouribnb.coupon.presentation.mapper.CouponMapper;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +32,13 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("쿠폰을 찾을 수 없음"));
         return CouponMapper.getDtoToResponse(coupon);
+    }
+
+    @Override
+    public UpdateCouponResponseDto updateCoupon(UUID id, UpdateCouponRequestDto request) {
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("쿠폰을 찾을 수 없음"));
+        coupon.update(request);
+        return CouponMapper.updateDtoToResponse(coupon);
     }
 }
