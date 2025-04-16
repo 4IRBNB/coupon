@@ -1,5 +1,6 @@
 package com.fouribnb.coupon.domain.entity;
 
+import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,7 +26,7 @@ public class Coupon {
     @Column(nullable = false, name = "coupon_id")
     private UUID id;
 
-    @Column(nullable = false, name = "user_id")
+    @Column(name = "user_id")
     private Long userId;
 
     @Column( name = "order_id")
@@ -53,6 +54,11 @@ public class Coupon {
         this.couponStatus = couponStatus;
         this.discountValue = discountValue;
         this.isUsed = isUsed;
+    }
+
+    public void update(UpdateCouponRequestDto dto){
+        this.couponeName = dto.getCouponName();
+        this.discountValue = dto.getDiscountValue();
     }
 }
 
