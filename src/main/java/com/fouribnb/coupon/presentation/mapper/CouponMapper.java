@@ -4,6 +4,7 @@ import com.fouribnb.coupon.domain.entity.Coupon;
 import com.fouribnb.coupon.domain.entity.CouponStatus;
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
 
 public class CouponMapper {
 
@@ -20,6 +21,17 @@ public class CouponMapper {
 
     public static CreateCouponResponseDto createDtoToResponse(Coupon coupon) {
         return CreateCouponResponseDto.builder()
+                .userId(coupon.getUserId())
+                .orderId(coupon.getOrderId())
+                .couponName(coupon.getCouponeName())
+                .couponStatus(coupon.getCouponStatus())
+                .discountValue(coupon.getDiscountValue())
+                .isUsed(coupon.isUsed())
+                .build();
+    }
+
+    public static GetCouponResponseDto getDtoToResponse(Coupon coupon) {
+        return GetCouponResponseDto.builder()
                 .userId(coupon.getUserId())
                 .orderId(coupon.getOrderId())
                 .couponName(coupon.getCouponeName())
