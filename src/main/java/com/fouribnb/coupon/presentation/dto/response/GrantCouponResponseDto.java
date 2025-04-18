@@ -10,7 +10,7 @@ import lombok.Getter;
 public class GrantCouponResponseDto {
     private UUID couponId;
     private Long userId;
-    private UUID orderId;
+    private UUID paymentId;
     private String couponName;
     private CouponStatus couponStatus;
     private int discountValue;

@@ -61,7 +61,7 @@ public class CouponMapper {
         return GrantCouponResponseDto.builder()
                 .couponId(coupon.getId())
                 .userId(coupon.getUserId())
-                .orderId(coupon.getPaymentId())
+                .paymentId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
                 .couponStatus(coupon.getCouponStatus())
                 .discountValue(coupon.getDiscountValue())
