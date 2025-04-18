@@ -1,7 +1,9 @@
 package com.fouribnb.coupon.domain.entity;
 
+import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fourirbnb.common.domain.BaseEntity;
+import com.fourirbnb.common.exception.OperationNotAllowedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,7 +33,7 @@ public class Coupon extends BaseEntity {
     private Long userId;
 
     @Column( name = "order_id")
-    private UUID orderId;
+    private UUID paymentId;
 
     @Column(nullable = false, name = "coupon_name")
     private String couponeName;
@@ -50,7 +52,7 @@ public class Coupon extends BaseEntity {
     public Coupon(Long userId, UUID orderId, String couponeName, CouponStatus couponStatus,
             int discountValue, boolean isUsed) {
         this.userId = userId;
-        this.orderId = orderId;
+        this.paymentId = orderId;
         this.couponeName = couponeName;
         this.couponStatus = couponStatus;
         this.discountValue = discountValue;
@@ -60,6 +62,19 @@ public class Coupon extends BaseEntity {
     public void update(UpdateCouponRequestDto dto){
         this.couponeName = dto.getCouponName();
         this.discountValue = dto.getDiscountValue();
+    }
+
+    public void grant(GrantCouponRequestDto dto) {
+        if(this.couponStatus == CouponStatus.valueOf("ACTIVE")){
+            if(this.isUsed == false){
+                this.userId = dto.getUserId();
+                this.paymentId = dto.getOrderId();
+            }else {
+                throw new OperationNotAllowedException("이미 사용된 쿠폰입니다");
+            }
+        }else {
+            throw new OperationNotAllowedException("만료된 쿠폰입니다");
+        }
     }
 }
 
