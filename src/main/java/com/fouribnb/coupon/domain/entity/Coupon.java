@@ -72,7 +72,6 @@ public class Coupon extends BaseEntity {
         if(this.couponStatus == CouponStatus.valueOf("ACTIVE")){
             if(this.isUsed == false){
                 this.userId = dto.getUserId();
-                this.paymentId = dto.getPaymentId();
             }else {
                 throw new OperationNotAllowedException("이미 사용된 쿠폰입니다");
             }

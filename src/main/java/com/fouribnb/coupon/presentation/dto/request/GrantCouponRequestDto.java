@@ -10,7 +10,5 @@ public class GrantCouponRequestDto {
 
     @NotBlank
     private Long userId;
-    @NotBlank
-    private UUID paymentId;
 
 }
