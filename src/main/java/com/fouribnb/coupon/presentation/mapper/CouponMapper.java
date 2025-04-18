@@ -13,7 +13,6 @@ public class CouponMapper {
     public static Coupon createToEntity(CreateCouponRequestDto dto) {
         return Coupon.builder()
                 .userId(dto.getUserId())
-                .paymentId(dto.getPaymentId())
                 .couponName(dto.getCouponName())
                 .couponStatus(CouponStatus.ACTIVE)
                 .discountValue(dto.getDiscountValue())

@@ -43,14 +43,14 @@ public class Coupon extends BaseEntity {
     private CouponStatus couponStatus;
 
     @Column(nullable = false, name = "discount_value")
-    private int discountValue;
+    private Long discountValue;
 
     @Column(nullable = false, name = "is_used")
     private boolean isUsed;
 
     @Builder
     public Coupon(Long userId, UUID paymentId, String couponName, CouponStatus couponStatus,
-            int discountValue, boolean isUsed) {
+            Long discountValue, boolean isUsed) {
         this.userId = userId;
         this.paymentId = paymentId;
         this.couponName = couponName;
@@ -60,8 +60,12 @@ public class Coupon extends BaseEntity {
     }
 
     public void update(UpdateCouponRequestDto dto){
-        this.couponName = dto.getCouponName();
-        this.discountValue = dto.getDiscountValue();
+        if(dto.getCouponName() != null){
+            this.couponName = dto.getCouponName();
+        }
+        if (dto.getDiscountValue() != null) {
+            this.discountValue = dto.getDiscountValue();
+        }
     }
 
     public void grant(GrantCouponRequestDto dto) {
