@@ -83,7 +83,7 @@ public class CouponController {
 
     //쿠폰발급
     //todo. 여러 명이 동시 발급할 때:
-    @PatchMapping("/{couponId}")
+    @PatchMapping("/grant/{couponId}")
     public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,
             @RequestBody GrantCouponRequestDto requestDto) {
         GrantCouponResponseDto responseDto = couponService.grantCoupon(couponId, requestDto);
