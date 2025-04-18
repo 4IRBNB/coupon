@@ -3,9 +3,11 @@ package com.fouribnb.coupon.application.service;
 import com.fouribnb.coupon.domain.entity.Coupon;
 import com.fouribnb.coupon.domain.repository.CouponRepository;
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
+import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fouribnb.coupon.presentation.mapper.CouponMapper;
 import com.fourirbnb.common.exception.ResourceNotFoundException;
@@ -63,5 +65,14 @@ public class CouponServiceImpl implements CouponService {
         coupon.delete(coupon.getUserId());
         //todo. currentUserId 받아와서 입력
         couponRepository.save(coupon);
+    }
+
+    @Override
+    public GrantCouponResponseDto grantCoupon(UUID id, GrantCouponRequestDto requestDto) {
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
+        coupon.grant(requestDto);
+        couponRepository.save(coupon);
+        return CouponMapper.GrantToResponse(coupon);
     }
 }

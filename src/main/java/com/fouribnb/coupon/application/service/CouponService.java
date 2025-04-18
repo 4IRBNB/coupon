@@ -1,9 +1,11 @@
 package com.fouribnb.coupon.application.service;
 
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
+import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -21,4 +23,6 @@ public interface CouponService {
     UpdateCouponResponseDto updateCoupon(UUID id, UpdateCouponRequestDto request);
 
     void deleteCoupon(UUID couponId);
+
+    GrantCouponResponseDto grantCoupon(UUID couponId, GrantCouponRequestDto requestDto);
 }
