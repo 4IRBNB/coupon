@@ -1,7 +1,9 @@
 package com.fouribnb.coupon.domain.entity;
 
+import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fourirbnb.common.domain.BaseEntity;
+import com.fourirbnb.common.exception.OperationNotAllowedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,11 +32,11 @@ public class Coupon extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column( name = "order_id")
-    private UUID orderId;
+    @Column( name = "payment_id")
+    private UUID paymentId;
 
     @Column(nullable = false, name = "coupon_name")
-    private String couponeName;
+    private String couponName;
 
     @Column(nullable = false, name = "coupon_status")
     @Enumerated(EnumType.STRING)
@@ -47,19 +49,32 @@ public class Coupon extends BaseEntity {
     private boolean isUsed;
 
     @Builder
-    public Coupon(Long userId, UUID orderId, String couponeName, CouponStatus couponStatus,
+    public Coupon(Long userId, UUID paymentId, String couponName, CouponStatus couponStatus,
             int discountValue, boolean isUsed) {
         this.userId = userId;
-        this.orderId = orderId;
-        this.couponeName = couponeName;
+        this.paymentId = paymentId;
+        this.couponName = couponName;
         this.couponStatus = couponStatus;
         this.discountValue = discountValue;
         this.isUsed = isUsed;
     }
 
     public void update(UpdateCouponRequestDto dto){
-        this.couponeName = dto.getCouponName();
+        this.couponName = dto.getCouponName();
         this.discountValue = dto.getDiscountValue();
+    }
+
+    public void grant(GrantCouponRequestDto dto) {
+        if(this.couponStatus == CouponStatus.valueOf("ACTIVE")){
+            if(this.isUsed == false){
+                this.userId = dto.getUserId();
+                this.paymentId = dto.getPaymentId();
+            }else {
+                throw new OperationNotAllowedException("이미 사용된 쿠폰입니다");
+            }
+        }else {
+            throw new OperationNotAllowedException("만료된 쿠폰입니다");
+        }
     }
 }
 
