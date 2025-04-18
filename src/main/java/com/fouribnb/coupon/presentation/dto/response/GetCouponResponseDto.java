@@ -14,7 +14,7 @@ public class GetCouponResponseDto {
     private UUID paymentId;
     private String couponName;
     private CouponStatus couponStatus;
-    private int discountValue;
+    private Long discountValue;
     private Boolean isUsed;
 
 }
