@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +36,7 @@ public class CouponController {
     public BaseResponse<CreateCouponResponseDto> createCoupon(
             @RequestBody CreateCouponRequestDto requestDto) {
         CreateCouponResponseDto responseDto = couponService.createCoupon(requestDto);
-        return ResponseEntity.ok(responseDto);
+        return BaseResponse.SUCCESS(responseDto, "쿠폰 생성 완료", HttpStatus.OK.value());
     }
 
     //쿠폰조회
@@ -69,10 +71,6 @@ public class CouponController {
                 pagination
         );
     }
-
-    //쿠폰발급
-
-    //쿠폰 삭제(softdelete)
 
     //쿠폰삭제
     @DeleteMapping("/{couponId}")

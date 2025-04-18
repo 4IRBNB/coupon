@@ -63,6 +63,5 @@ public class CouponServiceImpl implements CouponService {
         coupon.delete(coupon.getUserId());
         //todo. currentUserId 받아와서 입력
         couponRepository.save(coupon);
-        return null;
     }
 }
