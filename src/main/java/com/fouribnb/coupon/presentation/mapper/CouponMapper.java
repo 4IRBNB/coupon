@@ -23,6 +23,7 @@ public class CouponMapper {
 
     public static CreateCouponResponseDto createToResponse(Coupon coupon) {
         return CreateCouponResponseDto.builder()
+                .couponId(coupon.getId())
                 .userId(coupon.getUserId())
                 .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
@@ -34,6 +35,7 @@ public class CouponMapper {
 
     public static GetCouponResponseDto getToResponse(Coupon coupon) {
         return GetCouponResponseDto.builder()
+                .couponId(coupon.getId())
                 .userId(coupon.getUserId())
                 .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
@@ -45,6 +47,7 @@ public class CouponMapper {
 
     public static UpdateCouponResponseDto updateToResponse(Coupon coupon) {
         return UpdateCouponResponseDto.builder()
+                .couponId(coupon.getId())
                 .userId(coupon.getUserId())
                 .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
@@ -56,6 +59,7 @@ public class CouponMapper {
 
     public static GrantCouponResponseDto GrantToResponse(Coupon coupon) {
         return GrantCouponResponseDto.builder()
+                .couponId(coupon.getId())
                 .userId(coupon.getUserId())
                 .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
