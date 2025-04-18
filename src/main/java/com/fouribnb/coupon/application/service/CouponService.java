@@ -20,4 +20,5 @@ public interface CouponService {
 
     UpdateCouponResponseDto updateCoupon(UUID id, UpdateCouponRequestDto request);
 
+    void deleteCoupon(UUID couponId);
 }
