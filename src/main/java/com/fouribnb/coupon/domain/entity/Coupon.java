@@ -14,12 +14,16 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
 
 
 @Entity
 @Table(name = "p_coupon")
 @Getter
 @NoArgsConstructor
+@FilterDef(name = "deletedFilter")
+@Filter(name = "deletedFilter", condition = "deleted_at IS NULL")
 public class Coupon extends BaseEntity {
 
     @Id
