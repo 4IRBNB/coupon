@@ -5,6 +5,7 @@ import com.fouribnb.coupon.domain.entity.CouponStatus;
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 
 public class CouponMapper {
@@ -23,7 +24,7 @@ public class CouponMapper {
     public static CreateCouponResponseDto createToResponse(Coupon coupon) {
         return CreateCouponResponseDto.builder()
                 .userId(coupon.getUserId())
-                .orderId(coupon.getOrderId())
+                .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
                 .couponStatus(coupon.getCouponStatus())
                 .discountValue(coupon.getDiscountValue())
@@ -34,7 +35,7 @@ public class CouponMapper {
     public static GetCouponResponseDto getToResponse(Coupon coupon) {
         return GetCouponResponseDto.builder()
                 .userId(coupon.getUserId())
-                .orderId(coupon.getOrderId())
+                .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
                 .couponStatus(coupon.getCouponStatus())
                 .discountValue(coupon.getDiscountValue())
@@ -45,7 +46,7 @@ public class CouponMapper {
     public static UpdateCouponResponseDto updateToResponse(Coupon coupon) {
         return UpdateCouponResponseDto.builder()
                 .userId(coupon.getUserId())
-                .orderId(coupon.getOrderId())
+                .orderId(coupon.getPaymentId())
                 .couponName(coupon.getCouponeName())
                 .couponStatus(coupon.getCouponStatus())
                 .discountValue(coupon.getDiscountValue())
@@ -53,4 +54,14 @@ public class CouponMapper {
                 .build();
     }
 
+    public static GrantCouponResponseDto GrantToResponse(Coupon coupon) {
+        return GrantCouponResponseDto.builder()
+                .userId(coupon.getUserId())
+                .orderId(coupon.getPaymentId())
+                .couponName(coupon.getCouponeName())
+                .couponStatus(coupon.getCouponStatus())
+                .discountValue(coupon.getDiscountValue())
+                .isUsed(coupon.isUsed())
+                .build();
+    }
 }
