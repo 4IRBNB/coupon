@@ -7,8 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateCouponResponseDto {
-
+public class GrantCouponResponseDto {
     private UUID couponId;
     private Long userId;
     private UUID paymentId;
@@ -16,5 +15,4 @@ public class CreateCouponResponseDto {
     private CouponStatus couponStatus;
     private Long discountValue;
     private Boolean isUsed;
-
 }
