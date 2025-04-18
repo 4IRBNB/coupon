@@ -32,7 +32,7 @@ public class Coupon extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column( name = "order_id")
+    @Column( name = "payment_id")
     private UUID paymentId;
 
     @Column(nullable = false, name = "coupon_name")
@@ -49,10 +49,10 @@ public class Coupon extends BaseEntity {
     private boolean isUsed;
 
     @Builder
-    public Coupon(Long userId, UUID orderId, String couponeName, CouponStatus couponStatus,
+    public Coupon(Long userId, UUID paymentId, String couponeName, CouponStatus couponStatus,
             int discountValue, boolean isUsed) {
         this.userId = userId;
-        this.paymentId = orderId;
+        this.paymentId = paymentId;
         this.couponeName = couponeName;
         this.couponStatus = couponStatus;
         this.discountValue = discountValue;
@@ -68,7 +68,7 @@ public class Coupon extends BaseEntity {
         if(this.couponStatus == CouponStatus.valueOf("ACTIVE")){
             if(this.isUsed == false){
                 this.userId = dto.getUserId();
-                this.paymentId = dto.getOrderId();
+                this.paymentId = dto.getPaymentId();
             }else {
                 throw new OperationNotAllowedException("이미 사용된 쿠폰입니다");
             }

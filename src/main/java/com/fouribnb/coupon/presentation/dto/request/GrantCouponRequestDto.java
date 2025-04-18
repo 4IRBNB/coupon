@@ -8,6 +8,6 @@ import lombok.Getter;
 public class GrantCouponRequestDto {
 
     private Long userId;
-    private UUID orderId;
+    private UUID paymentId;
 
 }

@@ -10,7 +10,7 @@ import lombok.Getter;
 public class CreateCouponRequestDto {
 
     private Long userId;
-    private UUID orderId;
+    private UUID paymentId;
     private String couponName;
     private int discountValue;
 
