@@ -36,7 +36,7 @@ public class Coupon extends BaseEntity {
     private UUID paymentId;
 
     @Column(nullable = false, name = "coupon_name")
-    private String couponeName;
+    private String couponName;
 
     @Column(nullable = false, name = "coupon_status")
     @Enumerated(EnumType.STRING)
@@ -49,18 +49,18 @@ public class Coupon extends BaseEntity {
     private boolean isUsed;
 
     @Builder
-    public Coupon(Long userId, UUID paymentId, String couponeName, CouponStatus couponStatus,
+    public Coupon(Long userId, UUID paymentId, String couponName, CouponStatus couponStatus,
             int discountValue, boolean isUsed) {
         this.userId = userId;
         this.paymentId = paymentId;
-        this.couponeName = couponeName;
+        this.couponName = couponName;
         this.couponStatus = couponStatus;
         this.discountValue = discountValue;
         this.isUsed = isUsed;
     }
 
     public void update(UpdateCouponRequestDto dto){
-        this.couponeName = dto.getCouponName();
+        this.couponName = dto.getCouponName();
         this.discountValue = dto.getDiscountValue();
     }
 
