@@ -7,6 +7,7 @@ import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
+import com.fourirbnb.common.security.UserInfo;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ public interface CouponService {
 
     UpdateCouponResponseDto updateCoupon(UUID id, UpdateCouponRequestDto request);
 
-    void deleteCoupon(UUID couponId);
+    void deleteCoupon(UUID couponId, UserInfo userInfo);
 
     GrantCouponResponseDto grantCoupon(UUID couponId, GrantCouponRequestDto requestDto);
 }
