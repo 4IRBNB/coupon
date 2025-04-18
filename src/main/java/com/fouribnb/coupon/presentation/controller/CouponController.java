@@ -6,10 +6,14 @@ import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
+import com.fourirbnb.common.response.BaseResponse;
+import com.fourirbnb.common.response.Pagination;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.Update;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,25 +31,47 @@ public class CouponController {
 
     //쿠폰생성
     @PostMapping
-    public ResponseEntity<CreateCouponResponseDto> createCoupon(
+    public BaseResponse<CreateCouponResponseDto> createCoupon(
             @RequestBody CreateCouponRequestDto requestDto) {
         CreateCouponResponseDto responseDto = couponService.createCoupon(requestDto);
-        return ResponseEntity.ok(responseDto);
+        return BaseResponse.SUCCESS(responseDto, "쿠폰 생성 완료", HttpStatus.OK.value());
     }
 
     //쿠폰조회
     @GetMapping("/{couponId}")
-    public ResponseEntity<GetCouponResponseDto> getCoupon(@PathVariable UUID couponId) {
+    public BaseResponse<GetCouponResponseDto> getCoupon(@PathVariable UUID couponId) {
         GetCouponResponseDto responseDto = couponService.getCoupon(couponId);
-        return ResponseEntity.ok(responseDto);
+        return BaseResponse.SUCCESS(responseDto, "쿠폰 단건 조회 완료", HttpStatus.OK.value());
     }
 
     //쿠폰수정
     @PatchMapping("/{couponId}")
-    public ResponseEntity<UpdateCouponResponseDto> updateCoupon(@PathVariable UUID couponId,
+    public BaseResponse<UpdateCouponResponseDto> updateCoupon(@PathVariable UUID couponId,
             @RequestBody UpdateCouponRequestDto requestDto) {
         UpdateCouponResponseDto responseDto = couponService.updateCoupon(couponId, requestDto);
-        return ResponseEntity.ok(responseDto);
+        return BaseResponse.SUCCESS(responseDto, "쿠폰 수정 완료", HttpStatus.OK.value());
     }
+
+    //쿠폰조회(목록)
+    @GetMapping
+    public BaseResponse<List<GetCouponResponseDto>> getCoupons(Pageable pageable) {
+        Page<GetCouponResponseDto> page = couponService.getCoupons(pageable);
+
+        Pagination pagination = new Pagination(
+                page.getNumber(),
+                (long) page.getSize(),
+                page.getTotalPages(),
+                (int) page.getTotalElements()
+        );
+        return BaseResponse.SUCCESS(
+                page.getContent(),
+                "쿠폰 목록 조회 완료",
+                pagination
+        );
+    }
+
+    //쿠폰발급
+
+    //쿠폰 삭제(softdelete)
 
 }
