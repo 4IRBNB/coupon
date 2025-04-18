@@ -9,7 +9,7 @@ import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 
 public class CouponMapper {
 
-    public static Coupon createDtoToEntity(CreateCouponRequestDto dto) {
+    public static Coupon createToEntity(CreateCouponRequestDto dto) {
         return Coupon.builder()
                 .userId(dto.getUserId())
                 .orderId(dto.getOrderId())
@@ -20,7 +20,7 @@ public class CouponMapper {
                 .build();
     }
 
-    public static CreateCouponResponseDto createDtoToResponse(Coupon coupon) {
+    public static CreateCouponResponseDto createToResponse(Coupon coupon) {
         return CreateCouponResponseDto.builder()
                 .userId(coupon.getUserId())
                 .orderId(coupon.getOrderId())
@@ -31,7 +31,7 @@ public class CouponMapper {
                 .build();
     }
 
-    public static GetCouponResponseDto getDtoToResponse(Coupon coupon) {
+    public static GetCouponResponseDto getToResponse(Coupon coupon) {
         return GetCouponResponseDto.builder()
                 .userId(coupon.getUserId())
                 .orderId(coupon.getOrderId())
@@ -42,7 +42,7 @@ public class CouponMapper {
                 .build();
     }
 
-    public static UpdateCouponResponseDto updateDtoToResponse(Coupon coupon) {
+    public static UpdateCouponResponseDto updateToResponse(Coupon coupon) {
         return UpdateCouponResponseDto.builder()
                 .userId(coupon.getUserId())
                 .orderId(coupon.getOrderId())
