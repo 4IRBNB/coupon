@@ -10,6 +10,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.sql.Update;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +47,13 @@ public class CouponController {
             @RequestBody UpdateCouponRequestDto requestDto) {
         UpdateCouponResponseDto responseDto = couponService.updateCoupon(couponId, requestDto);
         return ResponseEntity.ok(responseDto);
+    }
+
+    //쿠폰삭제
+    @DeleteMapping("/{couponId}")
+    public ResponseEntity<Void> deleteCoupon(@PathVariable UUID couponId) {
+        couponService.deleteCoupon(couponId);
+        return ResponseEntity.noContent().build();
     }
 
 }
