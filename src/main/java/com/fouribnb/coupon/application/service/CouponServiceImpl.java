@@ -11,6 +11,8 @@ import com.fouribnb.coupon.presentation.mapper.CouponMapper;
 import com.fourirbnb.common.exception.ResourceNotFoundException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,25 +25,35 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CreateCouponResponseDto createCoupon(CreateCouponRequestDto request) {
-        Coupon coupon = CouponMapper.createDtoToEntity(request);
+        Coupon coupon = CouponMapper.createToEntity(request);
         couponRepository.save(coupon);
-        return CouponMapper.createDtoToResponse(coupon);
+        return CouponMapper.createToResponse(coupon);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public GetCouponResponseDto getCoupon(UUID id) {
         Coupon coupon = couponRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("쿠폰을 찾을 수 없음"));
-        return CouponMapper.getDtoToResponse(coupon);
+                .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
+        return CouponMapper.getToResponse(coupon);
     }
 
     @Override
     public UpdateCouponResponseDto updateCoupon(UUID id, UpdateCouponRequestDto request) {
         Coupon coupon = couponRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("쿠폰을 찾을 수 없음"));
+                .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
         coupon.update(request);
-        return CouponMapper.updateDtoToResponse(coupon);
+        return CouponMapper.updateToResponse(coupon);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<GetCouponResponseDto> getCoupons(Pageable pageable) {
+        Page<GetCouponResponseDto> dtos =  couponRepository.findAll(pageable)
+                .map(CouponMapper::getToResponse);
+        return dtos;
+    }
+
 
     @Override
     public void deleteCoupon(UUID id) {

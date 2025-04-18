@@ -1,6 +1,7 @@
 package com.fouribnb.coupon.domain.entity;
 
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
+import com.fourirbnb.common.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "p_coupon")
 @Getter
 @NoArgsConstructor
-public class Coupon {
+public class Coupon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
