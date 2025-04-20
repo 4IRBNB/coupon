@@ -75,4 +75,12 @@ public class CouponServiceImpl implements CouponService {
         return CouponMapper.grantToResponse(coupon);
     }
 
+    @Override
+    public Page<GetCouponResponseDto> getMyCoupons(Pageable pageable, UserInfo userInfo) {
+        Long currentUserId = userInfo.getUserId();
+        Page<GetCouponResponseDto> dtos =  couponRepository.findAllByUserId(pageable, currentUserId)
+                .map(CouponMapper::getToResponse);
+        return dtos;
+    }
+
 }
