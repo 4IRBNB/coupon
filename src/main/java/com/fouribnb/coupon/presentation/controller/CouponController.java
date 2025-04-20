@@ -11,6 +11,8 @@ import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fourirbnb.common.response.BaseResponse;
 import com.fourirbnb.common.response.Pagination;
 import com.fourirbnb.common.security.AuthenticatedUser;
+import com.fourirbnb.common.security.Role;
+import com.fourirbnb.common.security.RoleCheck;
 import com.fourirbnb.common.security.UserInfo;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -85,7 +87,7 @@ public class CouponController {
     }
 
     //쿠폰발급
-    //todo. 여러 명이 동시 발급할 때:
+    //todo. 여러 명이 동시 발급할 때:testcode 작성해서 확인해보기
     @PatchMapping("/grant/{couponId}")
     public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,
             @Valid @RequestBody GrantCouponRequestDto requestDto) {
@@ -93,7 +95,25 @@ public class CouponController {
         return BaseResponse.SUCCESS(responseDto, "쿠폰 발급 완료", HttpStatus.OK.value());
     }
 
-    //나의쿠폰보기
+    //나의쿠폰목록보기
+    @GetMapping("/me")
+    public BaseResponse<List<GetCouponResponseDto>> getMyCoupons(Pageable pageable,
+            @AuthenticatedUser UserInfo userInfo){
+        Page<GetCouponResponseDto> page = couponService.getMyCoupons(pageable, userInfo);
+
+        Pagination pagination = new Pagination(
+                page.getNumber(),
+                (long) page.getSize(),
+                page.getTotalPages(),
+                (int) page.getTotalElements()
+        );
+        return BaseResponse.SUCCESS(
+                page.getContent(),
+                "쿠폰 목록 조회 완료",
+                pagination
+        );
+    }
+
 
 
 }
