@@ -14,4 +14,5 @@ public interface CouponRepository {
 
     Optional<Coupon> findById(UUID id);
 
+    Page<Coupon> findAllByUserId(Pageable pageable, Long currentUserId);
 }
