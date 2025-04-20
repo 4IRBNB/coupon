@@ -2,9 +2,11 @@ package com.fouribnb.coupon.presentation.controller;
 
 import com.fouribnb.coupon.application.service.CouponService;
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
+import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fourirbnb.common.response.BaseResponse;
 import com.fourirbnb.common.response.Pagination;
@@ -77,6 +79,15 @@ public class CouponController {
     public ResponseEntity<Void> deleteCoupon(@PathVariable UUID couponId) {
         couponService.deleteCoupon(couponId);
         return ResponseEntity.noContent().build();
+    }
+
+    //쿠폰발급
+    //todo. 여러 명이 동시 발급할 때:
+    @PatchMapping("/grant/{couponId}")
+    public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,
+            @RequestBody GrantCouponRequestDto requestDto) {
+        GrantCouponResponseDto responseDto = couponService.grantCoupon(couponId, requestDto);
+        return BaseResponse.SUCCESS(responseDto, "쿠폰 발급 완료", HttpStatus.OK.value());
     }
 
 }
