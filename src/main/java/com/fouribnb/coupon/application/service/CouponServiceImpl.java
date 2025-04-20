@@ -72,6 +72,7 @@ public class CouponServiceImpl implements CouponService {
                 .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
         coupon.grant(requestDto);
         //todo: 현재 유저로 발급??
-        return CouponMapper.GrantToResponse(coupon);
+        return CouponMapper.grantToResponse(coupon);
     }
+
 }

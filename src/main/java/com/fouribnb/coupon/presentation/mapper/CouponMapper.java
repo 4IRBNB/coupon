@@ -56,7 +56,7 @@ public class CouponMapper {
                 .build();
     }
 
-    public static GrantCouponResponseDto GrantToResponse(Coupon coupon) {
+    public static GrantCouponResponseDto grantToResponse(Coupon coupon) {
         return GrantCouponResponseDto.builder()
                 .couponId(coupon.getId())
                 .userId(coupon.getUserId())
