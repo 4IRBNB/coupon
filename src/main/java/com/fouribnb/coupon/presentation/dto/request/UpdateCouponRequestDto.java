@@ -9,6 +9,6 @@ import lombok.Getter;
 public class UpdateCouponRequestDto {
 
     private String couponName;
-    private int discountValue;
+    private Long discountValue;
 
 }

@@ -10,6 +10,9 @@ import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fourirbnb.common.response.BaseResponse;
 import com.fourirbnb.common.response.Pagination;
+import com.fourirbnb.common.security.AuthenticatedUser;
+import com.fourirbnb.common.security.UserInfo;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +39,7 @@ public class CouponController {
     //쿠폰생성
     @PostMapping
     public BaseResponse<CreateCouponResponseDto> createCoupon(
-            @RequestBody CreateCouponRequestDto requestDto) {
+            @Valid @RequestBody CreateCouponRequestDto requestDto) {
         CreateCouponResponseDto responseDto = couponService.createCoupon(requestDto);
         return BaseResponse.SUCCESS(responseDto, "쿠폰 생성 완료", HttpStatus.OK.value());
     }
@@ -76,8 +79,8 @@ public class CouponController {
 
     //쿠폰삭제
     @DeleteMapping("/{couponId}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable UUID couponId) {
-        couponService.deleteCoupon(couponId);
+    public ResponseEntity<Void> deleteCoupon(@PathVariable UUID couponId, @AuthenticatedUser UserInfo userInfo) {
+        couponService.deleteCoupon(couponId, userInfo);
         return ResponseEntity.noContent().build();
     }
 
@@ -85,9 +88,12 @@ public class CouponController {
     //todo. 여러 명이 동시 발급할 때:
     @PatchMapping("/grant/{couponId}")
     public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,
-            @RequestBody GrantCouponRequestDto requestDto) {
+            @Valid @RequestBody GrantCouponRequestDto requestDto) {
         GrantCouponResponseDto responseDto = couponService.grantCoupon(couponId, requestDto);
         return BaseResponse.SUCCESS(responseDto, "쿠폰 발급 완료", HttpStatus.OK.value());
     }
+
+    //나의쿠폰보기
+
 
 }

@@ -11,6 +11,7 @@ import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fouribnb.coupon.presentation.mapper.CouponMapper;
 import com.fourirbnb.common.exception.ResourceNotFoundException;
+import com.fourirbnb.common.security.UserInfo;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -58,12 +59,11 @@ public class CouponServiceImpl implements CouponService {
 
 
     @Override
-    public void deleteCoupon(UUID id) {
+    public void deleteCoupon(UUID id, UserInfo userInfo) {
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
-//        coupon.delete(currentUserId);
-        coupon.delete(coupon.getUserId());
-        //todo. currentUserId 받아와서 입력
+        Long currentUserId = userInfo.getUserId();
+        coupon.delete(currentUserId);
     }
 
     @Override
@@ -71,6 +71,8 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
         coupon.grant(requestDto);
-        return CouponMapper.GrantToResponse(coupon);
+        //todo: 현재 유저로 발급??
+        return CouponMapper.grantToResponse(coupon);
     }
+
 }
