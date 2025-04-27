@@ -39,6 +39,7 @@ public class CouponController {
     private final CouponService couponService;
 
     //쿠폰생성
+    @RoleCheck({"MASTER", "MANAGER"})
     @PostMapping
     public BaseResponse<CreateCouponResponseDto> createCoupon(
             @Valid @RequestBody CreateCouponRequestDto requestDto) {
@@ -47,6 +48,7 @@ public class CouponController {
     }
 
     //쿠폰조회
+    @RoleCheck({"MASTER", "MANAGER", "HOST", "CUSTOMER"})
     @GetMapping("/{couponId}")
     public BaseResponse<GetCouponResponseDto> getCoupon(@PathVariable UUID couponId) {
         GetCouponResponseDto responseDto = couponService.getCoupon(couponId);
@@ -54,6 +56,7 @@ public class CouponController {
     }
 
     //쿠폰수정
+    @RoleCheck({"MASTER", "MANAGER", "HOST", "CUSTOMER"})
     @PatchMapping("/{couponId}")
     public BaseResponse<UpdateCouponResponseDto> updateCoupon(@PathVariable UUID couponId,
             @RequestBody UpdateCouponRequestDto requestDto) {
@@ -62,6 +65,7 @@ public class CouponController {
     }
 
     //쿠폰조회(목록)
+    @RoleCheck({"MASTER", "MANAGER"})
     @GetMapping
     public BaseResponse<List<GetCouponResponseDto>> getCoupons(Pageable pageable) {
         Page<GetCouponResponseDto> page = couponService.getCoupons(pageable);
@@ -80,6 +84,7 @@ public class CouponController {
     }
 
     //쿠폰삭제
+    @RoleCheck({"MASTER", "MANAGER"})
     @DeleteMapping("/{couponId}")
     public ResponseEntity<Void> deleteCoupon(@PathVariable UUID couponId, @AuthenticatedUser UserInfo userInfo) {
         couponService.deleteCoupon(couponId, userInfo);
@@ -109,7 +114,7 @@ public class CouponController {
         );
         return BaseResponse.SUCCESS(
                 page.getContent(),
-                "쿠폰 목록 조회 완료",
+                "나의쿠폰목록 조회 완료",
                 pagination
         );
     }
