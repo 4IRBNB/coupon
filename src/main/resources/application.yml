@@ -21,7 +21,10 @@ spring:
 server:
   port: 19099
 
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/
 
 
 #  config:
@@ -29,11 +32,8 @@ server:
 
 #server:
 #  port: 0
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:19090/eureka/
-#
+
+
 #message: "default message" # config server? ???? ?? ?
 #
 #management:
