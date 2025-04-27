@@ -26,4 +26,6 @@ public interface CouponService {
     void deleteCoupon(UUID couponId, UserInfo userInfo);
 
     GrantCouponResponseDto grantCoupon(UUID couponId, GrantCouponRequestDto requestDto);
+
+    Page<GetCouponResponseDto> getMyCoupons(Pageable pageable, UserInfo userInfo);
 }

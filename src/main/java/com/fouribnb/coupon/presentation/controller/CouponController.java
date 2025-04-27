@@ -11,6 +11,8 @@ import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fourirbnb.common.response.BaseResponse;
 import com.fourirbnb.common.response.Pagination;
 import com.fourirbnb.common.security.AuthenticatedUser;
+import com.fourirbnb.common.security.Role;
+import com.fourirbnb.common.security.RoleCheck;
 import com.fourirbnb.common.security.UserInfo;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -37,6 +39,7 @@ public class CouponController {
     private final CouponService couponService;
 
     //쿠폰생성
+    @RoleCheck({"MASTER", "MANAGER"})
     @PostMapping
     public BaseResponse<CreateCouponResponseDto> createCoupon(
             @Valid @RequestBody CreateCouponRequestDto requestDto) {
@@ -45,6 +48,7 @@ public class CouponController {
     }
 
     //쿠폰조회
+    @RoleCheck({"MASTER", "MANAGER", "HOST", "CUSTOMER"})
     @GetMapping("/{couponId}")
     public BaseResponse<GetCouponResponseDto> getCoupon(@PathVariable UUID couponId) {
         GetCouponResponseDto responseDto = couponService.getCoupon(couponId);
@@ -52,6 +56,7 @@ public class CouponController {
     }
 
     //쿠폰수정
+    @RoleCheck({"MASTER", "MANAGER", "HOST", "CUSTOMER"})
     @PatchMapping("/{couponId}")
     public BaseResponse<UpdateCouponResponseDto> updateCoupon(@PathVariable UUID couponId,
             @RequestBody UpdateCouponRequestDto requestDto) {
@@ -60,6 +65,7 @@ public class CouponController {
     }
 
     //쿠폰조회(목록)
+    @RoleCheck({"MASTER", "MANAGER"})
     @GetMapping
     public BaseResponse<List<GetCouponResponseDto>> getCoupons(Pageable pageable) {
         Page<GetCouponResponseDto> page = couponService.getCoupons(pageable);
@@ -78,6 +84,7 @@ public class CouponController {
     }
 
     //쿠폰삭제
+    @RoleCheck({"MASTER", "MANAGER"})
     @DeleteMapping("/{couponId}")
     public ResponseEntity<Void> deleteCoupon(@PathVariable UUID couponId, @AuthenticatedUser UserInfo userInfo) {
         couponService.deleteCoupon(couponId, userInfo);
@@ -85,7 +92,7 @@ public class CouponController {
     }
 
     //쿠폰발급
-    //todo. 여러 명이 동시 발급할 때:
+    //todo. 여러 명이 동시 발급할 때:testcode 작성해서 확인해보기
     @PatchMapping("/grant/{couponId}")
     public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,
             @Valid @RequestBody GrantCouponRequestDto requestDto) {
@@ -93,7 +100,25 @@ public class CouponController {
         return BaseResponse.SUCCESS(responseDto, "쿠폰 발급 완료", HttpStatus.OK.value());
     }
 
-    //나의쿠폰보기
+    //나의쿠폰목록보기
+    @GetMapping("/me")
+    public BaseResponse<List<GetCouponResponseDto>> getMyCoupons(Pageable pageable,
+            @AuthenticatedUser UserInfo userInfo){
+        Page<GetCouponResponseDto> page = couponService.getMyCoupons(pageable, userInfo);
+
+        Pagination pagination = new Pagination(
+                page.getNumber(),
+                (long) page.getSize(),
+                page.getTotalPages(),
+                (int) page.getTotalElements()
+        );
+        return BaseResponse.SUCCESS(
+                page.getContent(),
+                "나의쿠폰목록 조회 완료",
+                pagination
+        );
+    }
+
 
 
 }

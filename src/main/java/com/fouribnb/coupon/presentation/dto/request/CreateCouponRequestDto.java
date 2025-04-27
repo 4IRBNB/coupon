@@ -12,9 +12,7 @@ import lombok.Getter;
 @Builder
 public class CreateCouponRequestDto {
 
-    @NotNull
     private Long userId;
-
     private String couponName;
 
     @NotNull

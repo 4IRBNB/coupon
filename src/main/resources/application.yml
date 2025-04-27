@@ -4,10 +4,14 @@ spring:
   profiles:
     active: dev
   datasource:
-    url:  jdbc:h2:mem:coupon;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/coupon
+    driver-class-name: org.postgresql.Driver
+    username: fouribnb
+    password: 1234
+  #    url:  jdbc:h2:mem:lodge;
+  #    username: sa
+  #    password:
+  #    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create
@@ -17,7 +21,10 @@ spring:
 server:
   port: 19099
 
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/
 
 
 #  config:
@@ -25,11 +32,8 @@ server:
 
 #server:
 #  port: 0
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:19090/eureka/
-#
+
+
 #message: "default message" # config server? ???? ?? ?
 #
 #management:
