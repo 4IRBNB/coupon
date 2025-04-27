@@ -4,10 +4,14 @@ spring:
   profiles:
     active: dev
   datasource:
-    url:  jdbc:h2:mem:coupon;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/coupon
+    driver-class-name: org.postgresql.Driver
+    username: fouribnb
+    password: 1234
+  #    url:  jdbc:h2:mem:lodge;
+  #    username: sa
+  #    password:
+  #    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create

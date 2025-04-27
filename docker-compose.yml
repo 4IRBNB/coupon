@@ -1,0 +1,19 @@
+
+services:
+  postgres:
+    image: postgres:16          # 사용할 PostgreSQL 버전
+    container_name: my_postgres # 컨테이너 이름
+    restart: always             # 도커 데몬 재시작 시 자동 재실행
+    ports:
+      - "5432:5432"             # 호스트 5432 → 컨테이너 5432 포트 연결
+    environment:
+      POSTGRES_USER: fouribnb   # 생성할 DB 사용자
+      POSTGRES_PASSWORD: 1234   # 사용자 비밀번호
+      POSTGRES_DB: coupon        # 생성할 기본 DB 이름
+    volumes:
+      - postgres_data:/var/lib/postgresql/data    # 데이터 영속화
+      # init.sql 스크립트가 필요하다면 아래 두 줄 활성화
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:

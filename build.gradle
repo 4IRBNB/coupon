@@ -29,10 +29,15 @@ ext {
 
 dependencies {
 	//common
-	implementation 'com.fourirbnb:common:1.4.0'
+	implementation 'com.fourirbnb:common:1.5.0'
 
 	//h2
 	runtimeOnly 'com.h2database:h2'
+
+	//feignClient
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	runtimeOnly 'org.postgresql:postgresql'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
