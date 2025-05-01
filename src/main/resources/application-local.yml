@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: coupon
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coupon
+    driver-class-name: org.postgresql.Driver
+    username: fouribnb
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+server:
+  port: 19099
+  address: 0.0.0.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://52.78.20.34:19090/eureka/
+    register-with-eureka: false   # 자기 자신을 Eureka에 등록하지 않음
+    fetch-registry:     false     # 레지스트리도 가져오지 않음
