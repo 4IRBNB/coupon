@@ -1,10 +1,7 @@
 package com.fouribnb.coupon.domain.entity;
 
-import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fourirbnb.common.domain.BaseEntity;
-import com.fourirbnb.common.exception.OperationNotAllowedException;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.Builder;
@@ -41,10 +37,15 @@ public class Coupon extends BaseEntity {
     @Column(nullable = false, name = "discount_value")
     private Long discountValue;
 
+    @Column(nullable = false, name = "coupon_status")
+    @Enumerated(EnumType.STRING)
+    private CouponStatus couponStatus;
+
     @Builder
-    public Coupon(String couponName, Long discountValue) {
+    public Coupon(String couponName, Long discountValue, CouponStatus couponStatus) {
         this.couponName = couponName;
         this.discountValue = discountValue;
+        this.couponStatus = couponStatus;
     }
 
     public void update(UpdateCouponRequestDto dto){
@@ -53,6 +54,9 @@ public class Coupon extends BaseEntity {
         }
         if (dto.getDiscountValue() != null) {
             this.discountValue = dto.getDiscountValue();
+        }
+        if (dto.getCouponStatus() != null) {
+            this.couponStatus = dto.getCouponStatus();
         }
     }
 

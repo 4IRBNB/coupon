@@ -1,11 +1,8 @@
 package com.fouribnb.coupon.domain.entity;
 
-import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fourirbnb.common.exception.OperationNotAllowedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -43,18 +41,23 @@ public class UserCoupon {
     @Column( name = "payment_id")
     private UUID paymentId;
 
-    @Column(nullable = false, name = "coupon_status")
-    @Enumerated(EnumType.STRING)
-    private CouponStatus couponStatus;
 
     @Column(nullable = false, name = "is_used")
     private boolean isUsed;
 
+    @Builder
+    public UserCoupon(Coupon coupon, Long userId, UUID paymentId, CouponStatus couponStatus,
+            boolean isUsed) {
+        this.coupon = coupon;
+        this.userId = userId;
+        this.paymentId = paymentId;
+        this.isUsed = isUsed;
+    }
 
-    public void grant(GrantCouponRequestDto dto) {
-        if(this.couponStatus == CouponStatus.valueOf("ACTIVE")){
-            if(this.isUsed == false){
-                this.userId = dto.getUserId();
+    public void grant(Coupon coupon, Long userId) {
+        if(coupon.getCouponStatus() == CouponStatus.valueOf("ACTIVE")){
+            if(!this.isUsed){
+                this.userId = userId;
             }else {
                 throw new OperationNotAllowedException("이미 사용된 쿠폰입니다");
             }
