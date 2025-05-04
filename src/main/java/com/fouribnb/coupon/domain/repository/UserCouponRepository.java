@@ -1,17 +1,12 @@
 package com.fouribnb.coupon.domain.repository;
 
 import com.fouribnb.coupon.domain.entity.Coupon;
+import com.fouribnb.coupon.domain.entity.UserCoupon;
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface CouponRepository {
+public interface UserCouponRepository {
 
-    Page<Coupon> findAll(Pageable pageable);
-
-    Coupon save(Coupon coupon);
-
-    Optional<Coupon> findById(UUID id);
-
+    Page<UserCoupon> findAllByUserId(Pageable pageable, Long currentUserId);
 }
