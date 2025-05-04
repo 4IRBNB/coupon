@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GrantCouponResponseDto {
+
+    private UUID userCouponId;
     private UUID couponId;
     private Long userId;
     private UUID paymentId;

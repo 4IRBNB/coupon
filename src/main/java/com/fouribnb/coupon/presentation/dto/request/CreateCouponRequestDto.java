@@ -12,7 +12,6 @@ import lombok.Getter;
 @Builder
 public class CreateCouponRequestDto {
 
-    private Long userId;
     private String couponName;
 
     @NotNull
