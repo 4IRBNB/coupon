@@ -1,9 +1,7 @@
 package com.fouribnb.coupon.domain.entity;
 
-import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fourirbnb.common.domain.BaseEntity;
-import com.fourirbnb.common.exception.OperationNotAllowedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,34 +31,21 @@ public class Coupon extends BaseEntity {
     @Column(nullable = false, name = "coupon_id")
     private UUID id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column( name = "payment_id")
-    private UUID paymentId;
-
     @Column(nullable = false, name = "coupon_name")
     private String couponName;
+
+    @Column(nullable = false, name = "discount_value")
+    private Long discountValue;
 
     @Column(nullable = false, name = "coupon_status")
     @Enumerated(EnumType.STRING)
     private CouponStatus couponStatus;
 
-    @Column(nullable = false, name = "discount_value")
-    private Long discountValue;
-
-    @Column(nullable = false, name = "is_used")
-    private boolean isUsed;
-
     @Builder
-    public Coupon(Long userId, UUID paymentId, String couponName, CouponStatus couponStatus,
-            Long discountValue, boolean isUsed) {
-        this.userId = userId;
-        this.paymentId = paymentId;
+    public Coupon(String couponName, Long discountValue, CouponStatus couponStatus) {
         this.couponName = couponName;
-        this.couponStatus = couponStatus;
         this.discountValue = discountValue;
-        this.isUsed = isUsed;
+        this.couponStatus = couponStatus;
     }
 
     public void update(UpdateCouponRequestDto dto){
@@ -70,18 +55,11 @@ public class Coupon extends BaseEntity {
         if (dto.getDiscountValue() != null) {
             this.discountValue = dto.getDiscountValue();
         }
-    }
-
-    public void grant(GrantCouponRequestDto dto) {
-        if(this.couponStatus == CouponStatus.valueOf("ACTIVE")){
-            if(this.isUsed == false){
-                this.userId = dto.getUserId();
-            }else {
-                throw new OperationNotAllowedException("이미 사용된 쿠폰입니다");
-            }
-        }else {
-            throw new OperationNotAllowedException("만료된 쿠폰입니다");
+        if (dto.getCouponStatus() != null) {
+            this.couponStatus = dto.getCouponStatus();
         }
     }
+
+
 }
 

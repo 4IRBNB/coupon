@@ -31,40 +31,11 @@ dependencies {
 	//common
 	implementation 'com.fourirbnb:common:1.5.0'
 
-	//h2
-	runtimeOnly 'com.h2database:h2'
-
 	//feignClient
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	//eureka
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-	// swagger
-//	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
-//	implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.0'
-//	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
-//	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.0'
-
-	// zipkin
-//	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-//	implementation 'io.github.openfeign:feign-micrometer'
-//	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
-
-	// redis
-//	implementation 'org.springframework.session:spring-session-data-redis'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-	// security
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'io.jsonwebtoken:jjwt:0.12.6'
-
-	// config
-//	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-	// mockito-inline
-	testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.9.0'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	//postgre
 	runtimeOnly 'org.postgresql:postgresql'
@@ -78,6 +49,9 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+//bootJar {
+//	archiveFileName = 'coupon-server.jar'
+//}
 
 dependencyManagement {
 	imports {
@@ -88,3 +62,6 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+//test {
+//	enabled = false
+//}

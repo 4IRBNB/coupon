@@ -1,17 +1,17 @@
 package com.fouribnb.coupon.presentation.controller;
 
 import com.fouribnb.coupon.application.service.CouponService;
+import com.fouribnb.coupon.application.service.UserCouponService;
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
-import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
+import com.fouribnb.coupon.presentation.dto.response.GetMyCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.UpdateCouponResponseDto;
 import com.fourirbnb.common.response.BaseResponse;
 import com.fourirbnb.common.response.Pagination;
 import com.fourirbnb.common.security.AuthenticatedUser;
-import com.fourirbnb.common.security.Role;
 import com.fourirbnb.common.security.RoleCheck;
 import com.fourirbnb.common.security.UserInfo;
 import jakarta.validation.Valid;
@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CouponController {
 
     private final CouponService couponService;
+    private final UserCouponService userCouponService;
 
     //쿠폰생성
     @RoleCheck({"MASTER", "MANAGER"})
@@ -93,18 +94,20 @@ public class CouponController {
 
     //쿠폰발급
     //todo. 여러 명이 동시 발급할 때:testcode 작성해서 확인해보기
+    @RoleCheck({"CUSTOMER"})
     @PatchMapping("/grant/{couponId}")
     public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,
-            @Valid @RequestBody GrantCouponRequestDto requestDto) {
-        GrantCouponResponseDto responseDto = couponService.grantCoupon(couponId, requestDto);
+            @AuthenticatedUser UserInfo userInfo) {
+        GrantCouponResponseDto responseDto = userCouponService.grantUserCoupon(couponId, userInfo);
         return BaseResponse.SUCCESS(responseDto, "쿠폰 발급 완료", HttpStatus.OK.value());
     }
 
     //나의쿠폰목록보기
+    @RoleCheck({"CUSTOMER"})
     @GetMapping("/me")
-    public BaseResponse<List<GetCouponResponseDto>> getMyCoupons(Pageable pageable,
+    public BaseResponse<List<GetMyCouponResponseDto>> getMyCoupons(Pageable pageable,
             @AuthenticatedUser UserInfo userInfo){
-        Page<GetCouponResponseDto> page = couponService.getMyCoupons(pageable, userInfo);
+        Page<GetMyCouponResponseDto> page = userCouponService.getMyCoupons(pageable, userInfo);
 
         Pagination pagination = new Pagination(
                 page.getNumber(),
@@ -118,7 +121,4 @@ public class CouponController {
                 pagination
         );
     }
-
-
-
 }

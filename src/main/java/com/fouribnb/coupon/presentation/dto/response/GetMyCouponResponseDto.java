@@ -7,11 +7,15 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GetCouponResponseDto {
+public class GetMyCouponResponseDto {
 
+    private UUID userCouponId;
     private UUID couponId;
+    private Long userId;
+    private UUID paymentId;
     private String couponName;
-    private Long discountValue;
     private CouponStatus couponStatus;
+    private Long discountValue;
+    private Boolean isUsed;
 
 }

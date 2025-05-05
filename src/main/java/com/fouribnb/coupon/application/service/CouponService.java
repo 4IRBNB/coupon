@@ -1,7 +1,6 @@
 package com.fouribnb.coupon.application.service;
 
 import com.fouribnb.coupon.presentation.dto.request.CreateCouponRequestDto;
-import com.fouribnb.coupon.presentation.dto.request.GrantCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.request.UpdateCouponRequestDto;
 import com.fouribnb.coupon.presentation.dto.response.CreateCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GetCouponResponseDto;
@@ -25,7 +24,4 @@ public interface CouponService {
 
     void deleteCoupon(UUID couponId, UserInfo userInfo);
 
-    GrantCouponResponseDto grantCoupon(UUID couponId, GrantCouponRequestDto requestDto);
-
-    Page<GetCouponResponseDto> getMyCoupons(Pageable pageable, UserInfo userInfo);
 }

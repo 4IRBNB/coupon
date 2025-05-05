@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: coupon
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://team26.cxqqm2i6ohrd.ap-northeast-2.rds.amazonaws.com:5432/postgres?currentSchema=coupons
+    initialize: true
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+    password: team4irbnb
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+server:
+  port: 19099
+  address: 0.0.0.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://52.78.20.34:19090/eureka/
+
+
