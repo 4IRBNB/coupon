@@ -9,10 +9,13 @@ import com.fouribnb.coupon.presentation.dto.response.GetMyCouponResponseDto;
 import com.fouribnb.coupon.presentation.dto.response.GrantCouponResponseDto;
 import com.fouribnb.coupon.presentation.mapper.CouponMapper;
 import com.fouribnb.coupon.presentation.mapper.UserCouponMapper;
+import com.fourirbnb.common.exception.OperationNotAllowedException;
 import com.fourirbnb.common.exception.ResourceNotFoundException;
 import com.fourirbnb.common.security.UserInfo;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,10 +31,20 @@ public class UserCouponServiceImpl implements UserCouponService {
 
     @Override
     public GrantCouponResponseDto grantUserCoupon(UUID id, UserInfo userInfo) {
-        Coupon coupon = couponRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
-        UserCoupon userCoupon = UserCouponMapper.GrantToEntity(coupon, userInfo);
-        userCoupon.grant(coupon, userInfo.getUserId());
+        Optional<UserCoupon> userCouponExist = userCouponRepository.findByUserIdAndCouponId(userInfo.getUserId(), id);
+        UserCoupon userCoupon = null;
+        try {
+            if (userCouponExist.isPresent()) {
+                throw new OperationNotAllowedException("이미 발급된 쿠폰입니다");
+            }
+            Coupon coupon = couponRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
+            userCoupon = UserCouponMapper.GrantToEntity(coupon);
+            userCoupon.grant(coupon, userInfo.getUserId());
+            userCouponRepository.saveAndFlush(userCoupon);
+        }catch (DataIntegrityViolationException e) {
+            throw new OperationNotAllowedException("이미 발급된 쿠폰입니다");
+        }
         return UserCouponMapper.grantToResponse(userCoupon);
     }
 
