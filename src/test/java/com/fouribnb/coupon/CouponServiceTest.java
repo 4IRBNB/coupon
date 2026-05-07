@@ -45,7 +45,6 @@ public class CouponServiceTest {
         //given
         //dto 입력
         CreateCouponRequestDto req = CreateCouponRequestDto.builder()
-                .userId(null)
                 .couponName("할인1000")
                 .discountValue(1000L)
                 .build();
@@ -62,9 +61,7 @@ public class CouponServiceTest {
         //상태 검증
         assertThat(res.getCouponName()).isEqualTo("할인1000");
         assertThat(res.getDiscountValue()).isEqualTo(1000L);
-        assertThat(res.getIsUsed()).isFalse();
-        assertThat(res.getUserId()).isNull();
-        assertThat(res.getPaymentId()).isNull();
+        assertThat(res.getCouponStatus()).isEqualTo(CouponStatus.ACTIVE);
 
     }
 
@@ -74,11 +71,9 @@ public class CouponServiceTest {
         //given
         UUID couponId = UUID.randomUUID();
         Coupon coupon = Coupon.builder()
-                .userId(1L)
                 .couponName("SPRING10")
                 .discountValue(1000L)
                 .couponStatus(CouponStatus.ACTIVE)
-                .isUsed(false)
                 .build();
 
         // 테스트 전용으로 'id'를 강제로 세팅
@@ -92,12 +87,9 @@ public class CouponServiceTest {
         //then: 저장 호출과 반환값 검증
         //상태 검증
         assertThat(res.getCouponId()).isEqualTo(couponId);
-        assertThat(res.getUserId()).isEqualTo(1L);
-        assertThat(res.getPaymentId()).isNull();
         assertThat(res.getCouponName()).isEqualTo("SPRING10");
         assertThat(res.getCouponStatus()).isEqualTo(CouponStatus.ACTIVE);
         assertThat(res.getDiscountValue()).isEqualTo(1000L);
-        assertThat(res.getIsUsed()).isFalse();
 
     }
 
@@ -113,11 +105,5 @@ public class CouponServiceTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("쿠폰을 찾을 수 없음");
     }
-
-
-
-
-
-
 
 }
