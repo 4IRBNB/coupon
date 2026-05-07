@@ -27,10 +27,9 @@ public class UserCouponMapper {
     }
 
 
-    public static UserCoupon GrantToEntity(Coupon coupon, UserInfo userInfo) {
+    public static UserCoupon GrantToEntity(Coupon coupon) {
         return UserCoupon.builder()
                 .coupon(coupon)
-                .userId(userInfo.getUserId())
                 .paymentId(null)
                 .isUsed(false)
                 .build();
