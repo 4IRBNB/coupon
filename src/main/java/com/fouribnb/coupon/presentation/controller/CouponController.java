@@ -93,7 +93,6 @@ public class CouponController {
     }
 
     //쿠폰발급
-    //todo. 여러 명이 동시 발급할 때:testcode 작성해서 확인해보기
     @RoleCheck({"CUSTOMER"})
     @PatchMapping("/grant/{couponId}")
     public BaseResponse<GrantCouponResponseDto> grantCoupon(@PathVariable UUID couponId,

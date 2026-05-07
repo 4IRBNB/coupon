@@ -11,13 +11,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "p_user_coupon")
+@Table(name = "p_user_coupon",
+        uniqueConstraints = @UniqueConstraint(
+        columnNames = {"user_id", "coupon_id"}))
 @Getter
 @NoArgsConstructor
 public class UserCoupon {
@@ -26,7 +29,6 @@ public class UserCoupon {
     @Column(nullable = false, name = "user_coupon_id")
     private UUID id;
 
-    //
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "coupon_id",
