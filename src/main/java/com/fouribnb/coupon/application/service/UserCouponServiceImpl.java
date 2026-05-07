@@ -41,6 +41,7 @@ public class UserCouponServiceImpl implements UserCouponService {
                     .orElseThrow(() -> new ResourceNotFoundException("쿠폰을 찾을 수 없음"));
             userCoupon = UserCouponMapper.GrantToEntity(coupon);
             userCoupon.grant(coupon, userInfo.getUserId());
+            userCouponRepository.saveAndFlush(userCoupon);
         }catch (DataIntegrityViolationException e) {
             throw new OperationNotAllowedException("이미 발급된 쿠폰입니다");
         }
